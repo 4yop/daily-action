@@ -19,10 +19,13 @@
 			}
 		},
 		{
-			"path": "pages/place/place",
-			"style": {
-				"navigationBarTitleText": "地点"
-			}
+		    "path" : "pages/place/index",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
 		},
 		{
 			"path": "pages/user/index",
@@ -30,12 +33,7 @@
 				"navigationBarTitleText": "个人中心"
 			}
 		},
-		{
-			"path": "pages/user/user",
-			"style": {
-				"navigationBarTitleText": "个人中心"
-			}
-		},
+		
 		{
 			"path": "pages/example/components",
 			"style": {
@@ -77,42 +75,7 @@
 				}
 			}
 		}
-	    ,{
-            "path" : "pages/index/index",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/place/place",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/user/user",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/place/index",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
+	    
     ],
 	"subPackages": [{
 			"root": "pages/componentsC",
@@ -905,12 +868,12 @@
 		"backgroundColor": "#FFFFFF",
 		"borderStyle": "black",
 		"list": [
-			{
-					"pagePath": "pages/index/index",
-					"iconPath": "static/uview/example/component.png",
-					"selectedIconPath": "static/uview/example/component_select.png",
-					"text": "记录"
-			},
+			// {
+			// 		"pagePath": "pages/index/index",
+			// 		"iconPath": "static/uview/example/component.png",
+			// 		"selectedIconPath": "static/uview/example/component_select.png",
+			// 		"text": "记录"
+			// },
 			{
 					"pagePath": "pages/place/index",
 					"iconPath": "static/uview/example/template.png",
