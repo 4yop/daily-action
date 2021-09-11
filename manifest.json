@@ -1,5 +1,5 @@
 {
-    "name" : "12sdfsdf",
+    "name" : "daily-action",
     "appid" : "",
     "description" : "多平台快速开发的UI框架",
     "versionName" : "1.8.4",
@@ -93,7 +93,7 @@
     },
     "quickapp" : {},
     "mp-weixin" : {
-        "appid" : "",
+        "appid" : "wxd9a91727b68ca2e0",
         "setting" : {
             "urlCheck" : true,
             "es6" : false,

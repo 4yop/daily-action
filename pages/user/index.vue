@@ -9,11 +9,11 @@
 		</u-navbar>
 		<view class="u-flex user-box u-p-l-30 u-p-r-20 u-p-b-30">
 			<view class="u-m-r-10">
-				<u-avatar :src="pic" size="140"></u-avatar>
+				<u-avatar :src="userInfo.avatarUrl" size="140"></u-avatar>
 			</view>
 			<view class="u-flex-1">
-				<view class="u-font-18 u-p-b-20">uView ui</view>
-				<view class="u-font-14 u-tips-color">微信号:helang_uView</view>
+				<view class="u-font-18 u-p-b-20">{{userInfo.nickName}}</view>
+				<view class="u-font-14 u-tips-color">手机好:未绑定</view>
 			</view>
 			<view class="u-m-l-10 u-p-10">
 				<u-icon name="scan" color="#969799" size="28"></u-icon>
@@ -51,14 +51,33 @@
 		data() {
 			return {
 				pic:'https://uviewui.com/common/logo.png',
-				show:true
+				show:true,
+				userInfo : {}
 			}
+		},
+		onShow() {
+			let that = this
+			that.getUserInfo();
 		},
 		onLoad() {
 			
 		},
 		methods: {
-			
+			getUserInfo () {
+				let that = this;
+				let userInfo = uni.getStorageSync('userInfo');
+				if ( !userInfo ) 
+				{
+					uni.navigateTo({
+						url: "/pages/user/login",
+						fail : function (err) {
+							console.log(err);
+						}
+					});
+					return;
+				}
+				that.userInfo = userInfo;
+			},//end isLogin()
 		}
 	}
 </script>
