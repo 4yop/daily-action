@@ -52,9 +52,25 @@ export default {
 									success: info => {
 										//这里请求接口
 										console.log(res2);
+										
+										that.$u.post('/login', {
+											code: res2.code,
+											rawData : info.rawData,
+											signature : info.signature,
+										}).then(res => {
+											if (res.Code != 1) {
+												uni.showToast({ title: res.Msg, icon: 'none' });
+												return ;
+											}
+											uni.setStorageSync('token',res.Data.token)
+											console.log(res)
+											that.loginSuccess(info.userInfo);
+										}).catch(e=>{})
+										
+										
 										console.log(info);
 										console.log(info.userInfo);
-										that.loginSuccess(info.userInfo);
+										
 									},
 									fail: () => {
 										uni.showToast({ title: '微信登录授权失败', icon: 'none' });
@@ -77,15 +93,16 @@ export default {
 		}, //******end appLoginWx()***********
 		
 		isLogin () {
-			let userInfo = uni.getStorageSync('userInfo');
-			if ( userInfo ) 
+			let token = uni.getStorageSync('token');
+			if ( token ) 
 			{
-				uni.switchTab({
-					url: "/pages/user/index",
-					fail : function (err) {
-						console.log(err);
-					}
-				})
+				uni.navigateBack();
+				// uni.switchTab({
+				// 	url: "/pages/user/index",
+				// 	fail : function (err) {
+				// 		console.log(err);
+				// 	}
+				// })
 			}
 		},//end isLogin()
 		
