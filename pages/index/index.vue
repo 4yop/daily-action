@@ -138,14 +138,16 @@ export default {
 	},
 	onShow() {
 		isLogin()
-		if (!this.actionLog || this.actionLog.length < 1) {
-			this.getActionLog()
+		let that = this;
+		if (!that.actionLog || that.actionLog.length < 1) {
+			that.getActionLog()
 		}
+		that.getPlaceList();
 	},
 	onLoad() {
 		let that = this;
 		that.getActionLog();
-		that.getPlaceList();
+		
 	},
 	methods: {
 		

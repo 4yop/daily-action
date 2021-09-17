@@ -47,6 +47,48 @@ export default {
 						uni.login({
 							provider: 'weixin',
 							success: res2 => {
+								
+								// that.getUserProfile();
+								
+								
+								uni.showModal({
+									title: '温馨提示',
+									content: '亲，授权微信登录后才能正常使用小程序功能',
+									success(res) {
+										console.log("getUserProfile start 222");
+										uni.getUserProfile({
+											desc : "用于完善会员资料",
+											lang : "zh_CN",
+											success : function (info) {
+												console.log(res)
+												that.$u.post('/login', {
+													code: res2.code,
+													rawData : info.rawData,
+													signature : info.signature,
+												}).then(res => {
+													if (res.Code != 1) {
+														uni.showToast({ title: res.Msg, icon: 'none' });
+														return ;
+													}
+													uni.setStorageSync('token',res.Data.token)
+													console.log(res)
+													that.loginSuccess(info.userInfo);
+												}).catch(e=>{})
+											},//end success callback()
+											fail : function (err) {
+												console.log(err)
+												console.log(err)
+												uni.showToast({ title: '微信登录授权失败', icon: 'none' });
+											},//end fail callback() 
+											complete : function () {
+												console.log("getUserProfile complete");
+											},//end complete callback()
+										});
+									}
+								})
+								
+								return;
+								
 								uni.getUserInfo({
 									provider: 'weixin',
 									success: info => {
@@ -72,13 +114,15 @@ export default {
 										console.log(info.userInfo);
 										
 									},
-									fail: () => {
+									fail: (err) => {
+										console.log(err)
 										uni.showToast({ title: '微信登录授权失败', icon: 'none' });
 									}
 								});
 							},
-							fail: () => {
-								uni.showToast({ title: '微信登录授权失败', icon: 'none' });
+							fail: (err) => {
+								console.log(err)
+								uni.showToast({ title: '微信登录授权失败2', icon: 'none' });
 							}
 						});
 					} else {
@@ -91,6 +135,30 @@ export default {
 			});
 			//#endif
 		}, //******end appLoginWx()***********
+		
+		getUserProfile () {
+			uni.showModal({
+				title: '温馨提示',
+				content: '亲，授权微信登录后才能正常使用小程序功能',
+				success(res) {
+					console.log("getUserProfile start 1111");
+					uni.getUserProfile({
+						desc : "用于完善会员资料",
+						lang : "zh_CN",
+						success : function (res) {
+							console.log(res)
+						},//end success callback()
+						fail : function (err) {
+							console.log(err)
+						},//end fail callback() 
+						complete : function () {
+							console.log("getUserProfile complete");
+						},//end complete callback()
+					});
+				}
+			})
+		},//end getUserProfile()
+		
 		
 		isLogin () {
 			let token = uni.getStorageSync('token');

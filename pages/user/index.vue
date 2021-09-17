@@ -110,6 +110,7 @@
 				let that = this;
 				that.$u.get('/user').then(res => {
 					if (res.Code != 1) {
+						uni.removeStorageSync('token');
 						uni.navigateTo({
 							url: "/pages/user/login",
 							fail : function (err) {
