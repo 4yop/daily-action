@@ -16,6 +16,7 @@
 </template>
 
 <script>
+	import {isLogin} from "../../common/userService.js"	
 export default {
 	data() {
 		let that = this;
