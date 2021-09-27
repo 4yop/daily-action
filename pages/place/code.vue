@@ -7,7 +7,7 @@
 			</view>
 		</view>
 
-		<view class="u-demo-wrap">
+		<view class="u-demo-wrap" v-if="img.src != ''">
 			<view class="u-demo-area">
 				<u-button
 					@click="saveFile"
@@ -59,6 +59,12 @@ export default {
 			uni.showToast({ title: '缺少参数', icon: 'none' });
 			return;
 		}
+		let img_src = uni.getStorageSync("place_code:"+placeId)
+		console.log(img_src)
+		if (img_src) 
+		{
+			this.img.src = img_src
+		}
 		that.getPlaceWxCode(placeId);
 	},
 	methods: {
@@ -70,6 +76,7 @@ export default {
 					return;
 				}
 				if (res.Data) {
+					uni.setStorageSync("place_code:"+placeId,res.Data)
 					that.img.src = res.Data;
 				}
 			});

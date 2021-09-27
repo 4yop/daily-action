@@ -46,6 +46,12 @@
 				<u-cell-item @click="showHelp"  icon="setting" title="使用说明"></u-cell-item>
 			</u-cell-group>
 		</view>
+		
+		<view class="u-m-t-20">
+			<u-cell-group>
+				<u-cell-item @click="loginOut"  icon="setting" title="退出登录"></u-cell-item>
+			</u-cell-group>
+		</view>
 	</view>
 </template>
 
@@ -66,6 +72,23 @@
 			
 		},
 		methods: {
+			
+			loginOut () {
+				let that = this;
+				that.$u.post('/user/loginout').then(res => {
+					if (res.Code == 1)
+					{
+						uni.removeStorageSync('token');
+						uni.removeStorageSync('userInfo');
+						uni.navigateTo({
+							url: "/pages/user/login",
+							fail : function (err) {
+								console.log(err);
+							}
+						});
+					}
+				})
+			},//end  loginOut()
 			
 			showHelp () {
 				uni.showModal({
