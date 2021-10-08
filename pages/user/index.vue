@@ -13,13 +13,13 @@
 			</view>
 			<view class="u-flex-1">
 				<view class="u-font-18 u-p-b-20">{{userInfo.nickName}}</view>
-				<view class="u-font-14 u-tips-color">手机号:未绑定</view>
+				<view class="u-font-14 u-tips-color">ID:{{userInfo.id}}</view>
 			</view>
 			<view class="u-m-l-10 u-p-10">
-				<u-icon name="scan" color="#969799" size="28"></u-icon>
+				<u-icon name="scan" @click="scanCode()" color="#969799" size="28"></u-icon>
 			</view>
 			<view class="u-m-l-10 u-p-10">
-				<u-icon name="arrow-right" color="#969799" size="28"></u-icon>
+				<u-icon name="arrow-right"  color="#969799" size="28"></u-icon>
 			</view>
 		</view>
 		
@@ -37,6 +37,12 @@
 				<u-cell-item @click="noHas"icon="heart" title="关注"></u-cell-item>
 			</u-cell-group>
 		</view> -->
+		
+		<view class="u-m-t-20">
+			<u-cell-group>
+				<u-cell-item @click="pubWxMsg"  icon="setting" title="开启提醒"></u-cell-item>
+			</u-cell-group>
+		</view>
 		
 		<view class="u-m-t-20">
 			<!-- <u-cell-group>
@@ -61,7 +67,8 @@
 			return {
 				
 				show:true,
-				userInfo : {}
+				userInfo : {},
+				tmplIds : [],
 			}
 		},
 		onShow() {
@@ -69,9 +76,88 @@
 			that.updateUserInfo();
 		},
 		onLoad() {
-			
+			this.getTmpIds();
 		},
 		methods: {
+			
+			sCanCode () {
+				wx.scanCode({
+				  onlyFromCamera: true,
+				  success(res) {
+				    console.log(res)
+				  },
+				  fail(res) {
+					console.log(res)  
+				  }
+				})
+			}, // end sCanCode
+			
+			getTmpIds () {
+				let that = this;
+				that.$u.get('/tmp_ids').then(res => {
+					if (res.Code == 1)
+					{
+						console.log(res)
+						that.tmplIds = res.Data
+					}
+				})
+			},//end getTmpIds()
+			
+			pubWxMsg () {
+				let that = this;
+				if (that.tmplIds.length < 1) 
+				{
+					return;
+				}
+				wx.requestSubscribeMessage({
+					tmplIds: that.tmplIds,
+					success (res) {
+						console.log(res)
+						
+						let titles = {
+							accept : "订阅成功",
+							reject : "拒绝订阅",
+							ban : "消息后台封禁",
+							filter : "消息后台过滤",
+						};
+						
+						for(let i in that.tmplIds) 
+						{
+							let r = res[that.tmplIds[i]]
+							console.log(r)
+							console.log(titles[r])
+							uni.showToast({
+								title: titles[r],
+								duration: 2000,
+								icon : 'none',
+							});
+						}
+					},
+					fail (res) {
+						
+						res.errCode;
+						
+						let errCodes = {
+							10001 : '参数传空了',
+							10002 : '请求消息列表失败',
+							10003 : '订阅请求发送失败',
+							10004 : '参数类型错误',
+							10005 : '无法展示UI',
+							20001 : '没有模板数据',
+							20002 : '有一次性又有永久',
+							20003 : '消息数量上限',
+							20004 : '用关闭了主开关',
+							20005 : '小游戏被禁封',
+						};
+						
+						uni.showToast({
+							title: errCodes[res.errCode],
+							duration: 2000,
+							icon : 'none',
+						});
+					},
+				});
+			},
 			
 			loginOut () {
 				let that = this;

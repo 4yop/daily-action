@@ -19,8 +19,10 @@
 									v-if="val.IsDefault==1"
 							/>
 							{{val.Desc}}
-							
 						</view>
+					</view>
+					<view class="u-body-item u-flex u-border-bottom u-col-between u-p-t-0 created-id">
+						创建人ID:{{val.UserId}}
 					</view>
 				</view>
 				
@@ -214,5 +216,9 @@
 		height: 120rpx;
 		border-radius: 8rpx;
 		margin-left: 12rpx;
+	}
+	.created-id {
+		padding-bottom: 10rpx;
+		padding-top: 10rpx !important;
 	}
 </style>
