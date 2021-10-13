@@ -61,6 +61,7 @@ export default {
 		};
 	},
 	onLoad(option) {
+		wx.hideShareMenu()
 		isLogin();
 		let that = this;
 		that.updateUserInfo();
